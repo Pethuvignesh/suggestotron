@@ -28,7 +28,7 @@ class TopicsController < ApplicationController
 
     respond_to do |format|
       if @topic.save
-        format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
+        format.html { redirect_to topics_path, notice: 'Topic was successfully created.' }
         format.json { render :show, status: :created, location: @topic }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class TopicsController < ApplicationController
   def update
     respond_to do |format|
       if @topic.update(topic_params)
-        format.html { redirect_to @topic, notice: 'Topic was successfully updated.' }
+       format.html { redirect_to topics_path, notice: 'Topic was successfully updated.' }
         format.json { render :show, status: :ok, location: @topic }
       else
         format.html { render :edit }
@@ -50,7 +50,11 @@ class TopicsController < ApplicationController
       end
     end
   end
-
+    def upvote
+    @topic = Topic.find(params[:id])
+    @topic.votes.create
+    redirect_to(topics_path)
+    end
   # DELETE /topics/1
   # DELETE /topics/1.json
   def destroy
@@ -71,4 +75,5 @@ class TopicsController < ApplicationController
     def topic_params
       params.require(:topic).permit(:title, :description)
     end
+    
 end
